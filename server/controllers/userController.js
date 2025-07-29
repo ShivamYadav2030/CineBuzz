@@ -13,7 +13,7 @@ export const getUserBookings = async (req, res) => {
       path: 'show',
       populate: {path: 'movie'}
     }).sort({createdAt: -1})
-    req.json({success: true, bookings})
+    res.json({success: true, bookings})
   } catch(error) {
     console.error(error.message)
     res.json({success: false, message: error.message})
@@ -32,7 +32,7 @@ export const updateFavorite = async (req, res)=>{
       user.privateMetadata.favorites = []
     }
 
-    if(!user.privateMetadata.favorites.include(movieId)) {
+    if(!user.privateMetadata.favorites.includes(movieId)) {
       user.privateMetadata.favorites.push(movieId)
     } else {
       user.privateMetadata.favorites = user.privateMetadata.favorites.filter(item => item !== movieId)
@@ -43,7 +43,7 @@ export const updateFavorite = async (req, res)=>{
     res.json({success: true, message: 'Favorite added updated.'})
   } catch (error) {
     console.error(error.message)
-    req.json({ success: false, message:error.message })
+    res.json({ success: false, message:error.message })
   }
 }
 
